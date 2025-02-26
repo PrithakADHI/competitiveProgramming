@@ -7,6 +7,7 @@ import {
   leaveQuizz,
 } from "../controllers/quizzController.js";
 
+import upload from "../middlewares/media.js";
 import authenticateUser from "../middlewares/auth.js";
 import { validateRequest } from "../middlewares/validate.js";
 import { quizzValidationRules } from "../validationRules.js";
@@ -15,6 +16,7 @@ const quizzRouter = express.Router();
 
 quizzRouter.post(
   "/quizzes",
+  upload.single('image'),
   quizzValidationRules.createQuizz,
   validateRequest,
   createQuizz

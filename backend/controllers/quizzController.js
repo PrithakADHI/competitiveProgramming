@@ -6,8 +6,9 @@ import User from "../models/User.js";
 
 export const createQuizz = async (req, res) => {
   const { title, desc, questions } = req.body;
+  const file = req.image;
 
-  // const parsedQuestions = JSON.parse(questions);
+  const parsedQuestions = JSON.parse(questions);
 
   try {
     const quizz = await Quizz.create(
