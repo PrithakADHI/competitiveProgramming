@@ -6,16 +6,21 @@ import User from "../models/User.js";
 
 export const createQuizz = async (req, res) => {
   const { title, desc, questions } = req.body;
-  const file = req.image;
+  const file = req.file;
 
-  const parsedQuestions = JSON.parse(questions);
+  const parsedQuestions = Array.isArray(questions) ? questions : JSON.parse(questions);
+
+  const imageUrl = file ? `/uploads/${file.filename}` : null;
+
+
 
   try {
     const quizz = await Quizz.create(
       {
         title,
         desc,
-        questions,
+        questions: parsedQuestions,
+        image: imageUrl,
       },
       {
         include: [{ model: Question, as: "questions" }],

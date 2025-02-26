@@ -20,6 +20,11 @@ const Quizz = sequelize.define("Quizz", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 });
 
 // Define Many-to-Many Relationship using a Junction Table

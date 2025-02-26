@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const questions = [
+  { id: 1, text: "What is React?" },
+  { id: 2, text: "What is JSX?" },
+  { id: 3, text: "What are React Hooks?" },
+  { id: 4, text: "What is Tailwind CSS?" },
+  { id: 5, text: "What is DaisyUI?" },
+  { id: 6, text: "What is useEffect used for?" },
+];
 
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-base-200">
+      {/* Navbar */}
+      <nav className="bg-primary text-white p-4 shadow-lg flex justify-center">
+        <h1 className="text-2xl font-bold">BirendraITClub Quizz</h1>
+      </nav>
+      
+      {/* Grid of Cards */}
+      <div className="container mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {questions.map((question) => (
+          <div
+            key={question.id}
+            className="bg-white p-6 rounded-lg shadow-md hover:-translate-y-2 transition-transform duration-300"
+          >
+            <h2 className="text-lg font-semibold">{question.text}</h2>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
