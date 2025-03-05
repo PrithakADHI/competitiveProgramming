@@ -3,15 +3,19 @@ import {
   loginUser,
   registerUser,
   refreshAccessToken,
+  profile,
 } from "../controllers/authController.js";
 
+import upload from "../middlewares/media.js";
 import { validateRequest } from "../middlewares/validate.js";
 import { userValidationRules } from "../validationRules.js";
+import authenticateUser from "../middlewares/auth.js";
 
 const authRouter = express.Router();
 
 authRouter.post(
   "/register",
+  upload.single("image"),
   userValidationRules.registerUser,
   validateRequest,
   registerUser
@@ -28,5 +32,6 @@ authRouter.post(
   validateRequest,
   refreshAccessToken
 );
+authRouter.get("/profile", authenticateUser, profile);
 
 export default authRouter;

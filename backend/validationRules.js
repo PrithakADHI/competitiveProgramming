@@ -4,12 +4,25 @@ export const quizzValidationRules = {
   createQuizz: [
     body("title").notEmpty().withMessage("Title is Required. "),
     body("desc").notEmpty().withMessage("Description is Required."),
+    body("questions").notEmpty().withMessage("Questions is Required."),
     body("questions.*.question")
       .notEmpty()
       .withMessage("Each question must have a question."),
     body("questions.*.isCodingQuestion")
       .notEmpty()
       .withMessage("Each Question must have isCodingQuestion."),
+    body("questions.*.inputTestCase1")
+      .notEmpty()
+      .withMessage("Each Question must have inputTestCase1."),
+    body("questions.*.outputTestCase1")
+      .notEmpty()
+      .withMessage("Each Question must have outputTestCase1."),
+    body("questions.*.inputTestCase2")
+      .notEmpty()
+      .withMessage("Each Question must have inputTestCase2."),
+    body("questions.*.outputTestCase2")
+      .notEmpty()
+      .withMessage("Each Question must have outputTestCase2."),
   ],
   readQuizz: [param("id").isInt().withMessage("Quizz ID must be an integer.")],
   joinQuizz: [param("id").isInt().withMessage("Quizz ID must be an integer.")],

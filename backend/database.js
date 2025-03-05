@@ -12,6 +12,7 @@ const sequelize = new Sequelize(
     dialect: "postgres",
     port: process.env.POSTGRES_PORT,
     ssl: false,
+    logging: false,
   }
 );
 

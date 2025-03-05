@@ -8,11 +8,11 @@ export const createQuizz = async (req, res) => {
   const { title, desc, questions } = req.body;
   const file = req.file;
 
-  const parsedQuestions = Array.isArray(questions) ? questions : JSON.parse(questions);
+  const parsedQuestions = Array.isArray(questions)
+    ? questions
+    : JSON.parse(questions);
 
   const imageUrl = file ? `/uploads/${file.filename}` : null;
-
-
 
   try {
     const quizz = await Quizz.create(
@@ -64,11 +64,6 @@ export const readQuizz = async (req, res) => {
             "outputTestCase2",
           ],
         },
-        {
-          model: User,
-          as: "joinedUsers",
-          attributes: ["id", "username", "email", "firstName", "lastName"],
-        },
       ],
     });
 
@@ -112,9 +107,6 @@ export const joinQuizz = async (req, res) => {
       });
     }
 
-    // Associate the user with the quiz (Many-to-Many relationship needed)
-    await quizz.addJoinedUsers(user);
-
     return res.status(200).json({
       success: true,
       message: "User successfully joined the quiz.",
@@ -150,21 +142,44 @@ export const leaveQuizz = async (req, res) => {
       });
     }
 
-    // Check if user is part of the quiz
-    const isJoined = await quizz.hasJoinedUsers(user);
-    if (!isJoined) {
-      return res.status(400).json({
-        success: false,
-        message: "User is not part of this quiz.",
-      });
-    }
-
-    // Remove the user from the quiz
-    await quizz.removeJoinedUsers(user);
-
     return res.status(200).json({
       success: true,
       message: "User successfully left the quiz.",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: `Error: ${err.message}`,
+    });
+  }
+};
+
+export const increaseUserPoints = async (req, res) => {
+  try {
+    const user = req.user;
+    const increasePoints = Number(req.body.increasePoints);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    if (!increasePoints || increasePoints <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid increasePoints value. It must be a positive number.",
+      });
+    }
+
+    user.points = (user.points || 0) + increasePoints;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "User's points increased.",
+      points: user.points,
     });
   } catch (err) {
     return res.status(500).json({

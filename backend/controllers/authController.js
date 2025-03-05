@@ -57,6 +57,9 @@ passport.deserializeUser(async (id, done) => {
 
 export const registerUser = async (req, res) => {
   const { username, email, password, firstName, lastName } = req.body;
+  const file = req.file;
+
+  const imageUrl = file ? `/uploads/${file.filename}` : null;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -75,6 +78,7 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      profilePicture: imageUrl,
     });
 
     res
@@ -159,4 +163,9 @@ export const refreshAccessToken = async (req, res) => {
       .status(500)
       .json({ error: "Error refreshing token: " + err.message });
   }
+};
+
+export const profile = (req, res) => {
+  const user = req.user;
+  return res.json({ user });
 };

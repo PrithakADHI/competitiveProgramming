@@ -23,15 +23,15 @@ const Quizz = sequelize.define("Quizz", {
 
   image: {
     type: DataTypes.STRING,
-    allowNull: true
-  }
+    allowNull: true,
+  },
 });
 
 // Define Many-to-Many Relationship using a Junction Table
-const QuizzUsers = sequelize.define("QuizzUsers", {}, { timestamps: false });
+// const QuizzUsers = sequelize.define("QuizzUsers", {}, { timestamps: false });
 
-Quizz.belongsToMany(User, { through: QuizzUsers, as: "joinedUsers" });
-User.belongsToMany(Quizz, { through: QuizzUsers, as: "joinedQuizzes" });
+// Quizz.belongsToMany(User, { through: QuizzUsers, as: "joinedUsers" });
+// User.belongsToMany(Quizz, { through: QuizzUsers, as: "joinedQuizzes" });
 
 // Define one-to-many relationship with Questions
 Quizz.hasMany(Question, {
@@ -46,4 +46,4 @@ Question.belongsTo(Quizz, {
   onDelete: "CASCADE",
 });
 
-export { Quizz, QuizzUsers };
+export { Quizz };

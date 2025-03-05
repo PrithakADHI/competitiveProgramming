@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${API_URL}auth/login`, {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         email,
         password,
       });
@@ -24,13 +24,13 @@ export const AuthProvider = ({ children }) => {
       setUser(user);
       navigate("/");
     } catch (error) {
-      console.error("Login Failed: ", error.response.data);
+      console.error("Login Failed: ", error.message);
     }
   };
 
   const register = async (formData) => {
     try {
-      await axios.post(`${API_URL}auth/register`, formData, {
+      await axios.post(`${API_URL}/auth/register`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("User Successfully Registered.");
@@ -97,7 +97,8 @@ export const AuthProvider = ({ children }) => {
       try {
         const access = localStorage.getItem("accessToken");
         if (access) {
-          const response = await authAxios.get(`${API_URL}auth/profile`);
+          const response = await authAxios.get(`${API_URL}/auth/profile`);
+          console.log(response.data.user);
           setUser(response.data.user);
         }
       } catch (error) {

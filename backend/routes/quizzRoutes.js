@@ -5,6 +5,7 @@ import {
   readQuizz,
   joinQuizz,
   leaveQuizz,
+  increaseUserPoints,
 } from "../controllers/quizzController.js";
 
 import upload from "../middlewares/media.js";
@@ -16,7 +17,7 @@ const quizzRouter = express.Router();
 
 quizzRouter.post(
   "/quizzes",
-  upload.single('image'),
+  upload.single("image"),
   quizzValidationRules.createQuizz,
   validateRequest,
   createQuizz
@@ -28,19 +29,21 @@ quizzRouter.get(
   validateRequest,
   readQuizz
 );
-quizzRouter.post(
-  "/quizzes/join/:id",
-  quizzValidationRules.joinQuizz,
-  validateRequest,
-  authenticateUser,
-  joinQuizz
-);
-quizzRouter.post(
-  "/quizzes/leave/:id",
-  quizzValidationRules.leaveQuizz,
-  validateRequest,
-  authenticateUser,
-  leaveQuizz
-);
+// quizzRouter.post(
+//   "/quizzes/join/:id",
+//   quizzValidationRules.joinQuizz,
+//   validateRequest,
+//   authenticateUser,
+//   joinQuizz
+// );
+// quizzRouter.post(
+//   "/quizzes/leave/:id",
+//   quizzValidationRules.leaveQuizz,
+//   validateRequest,
+//   authenticateUser,
+//   leaveQuizz
+// );
+
+quizzRouter.post("/increase", authenticateUser, increaseUserPoints);
 
 export default quizzRouter;
