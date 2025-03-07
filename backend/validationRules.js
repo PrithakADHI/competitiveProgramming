@@ -5,6 +5,7 @@ export const quizzValidationRules = {
     body("title").notEmpty().withMessage("Title is Required. "),
     body("desc").notEmpty().withMessage("Description is Required."),
     body("questions").notEmpty().withMessage("Questions is Required."),
+    body("awardPoints").notEmpty().withMessage("awardPoints is Required."),
     body("questions.*.question")
       .notEmpty()
       .withMessage("Each question must have a question."),

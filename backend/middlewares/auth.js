@@ -52,4 +52,19 @@ const authenticateUser = async (req, res, next) => {
   })(req, res, next);
 };
 
+export const adminAuth = (req, res, next) => {
+  if (!req.user) {
+    return res
+      .status(500)
+      .json({ error: "Server error. Invalid order of middleware (?)" });
+  }
+
+  if (req.user.role !== "admin") {
+    return res
+      .status(403)
+      .json({ error: "This path is only accessible by an admin." });
+  }
+  next();
+};
+
 export default authenticateUser;

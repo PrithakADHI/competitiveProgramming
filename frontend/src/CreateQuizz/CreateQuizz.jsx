@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CreateQuizz = () => {
+  const authToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authToken) {
+      navigate("/");
+    }
+  }, [authToken]);
+
   const [quizzTitle, setQuizzTitle] = useState("");
   const [quizzDesc, setQuizzDesc] = useState("");
   const [quizzImg, setQuizzImg] = useState(null);
+  const [awardPoints, setAwardPoints] = useState(0);
 
   const [question, setQuestion] = useState("");
   const [isCodingQuestion, setIsCodingQuestion] = useState(false);
@@ -30,6 +41,7 @@ const CreateQuizz = () => {
     const formData = new FormData();
     formData.append("title", quizzTitle);
     formData.append("desc", quizzDesc);
+    formData.append("awardPoints", awardPoints);
     if (quizzImg) formData.append("image", quizzImg);
 
     const questionData = {
@@ -48,6 +60,7 @@ const CreateQuizz = () => {
       const response = await axios.post(`${API_URL}/api/quizzes/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authToken}`,
         },
       });
 
@@ -57,6 +70,7 @@ const CreateQuizz = () => {
       // Reset form
       setQuizzTitle("");
       setQuizzDesc("");
+      setAwardPoints(0);
       setQuizzImg(null);
       setQuestion("");
       setIsCodingQuestion(false);
@@ -117,11 +131,25 @@ const CreateQuizz = () => {
                 />
               </div>
 
+              <div className="form-control mt-4">
+                <label className="label">
+                  <span className="label-text">Points to Award</span>
+                </label>
+                <input
+                  type="number"
+                  value={awardPoints}
+                  onChange={(e) => setAwardPoints(e.target.value)}
+                  required
+                  className="input input-bordered w-full"
+                />
+              </div>
+
               {/* Quizz Image Upload */}
               <div className="form-control mt-4">
                 <label className="label">
                   <span className="label-text">Quizz Image</span>
                 </label>
+                <br />
                 <input
                   type="file"
                   accept="image/*"
@@ -233,7 +261,7 @@ const CreateQuizz = () => {
               </div>
 
               {/* Submit Button */}
-              <div className="form-control mt-6">
+              <div className="form-control mt-6 flex justify-center">
                 <button
                   type="submit"
                   className="btn btn-primary"

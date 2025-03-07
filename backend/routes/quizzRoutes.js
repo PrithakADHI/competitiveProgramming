@@ -3,13 +3,12 @@ import {
   createQuizz,
   readAllQuizzes,
   readQuizz,
-  joinQuizz,
-  leaveQuizz,
   increaseUserPoints,
+  checkUserAnswer,
 } from "../controllers/quizzController.js";
 
 import upload from "../middlewares/media.js";
-import authenticateUser from "../middlewares/auth.js";
+import authenticateUser, { adminAuth } from "../middlewares/auth.js";
 import { validateRequest } from "../middlewares/validate.js";
 import { quizzValidationRules } from "../validationRules.js";
 
@@ -20,6 +19,8 @@ quizzRouter.post(
   upload.single("image"),
   quizzValidationRules.createQuizz,
   validateRequest,
+  authenticateUser,
+  // adminAuth,
   createQuizz
 );
 quizzRouter.get("/quizzes", readAllQuizzes);
@@ -45,5 +46,6 @@ quizzRouter.get(
 // );
 
 quizzRouter.post("/increase", authenticateUser, increaseUserPoints);
+quizzRouter.post("/check/:id", authenticateUser, checkUserAnswer);
 
 export default quizzRouter;

@@ -108,7 +108,7 @@ const Register = () => {
                   onChange={(e) => setProfilePicture(e.target.files[0])}
                 />
               </div>
-              <div className="form-control mt-6">
+              <div className="form-control mt-6 flex justify-center">
                 <button className="btn btn-primary">Register</button>
               </div>
             </form>

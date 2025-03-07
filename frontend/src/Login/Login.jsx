@@ -79,7 +79,7 @@ const Login = () => {
                   </a>
                 </label>
               </div>
-              <div className="form-control mt-6">
+              <div className="form-control mt-6 flex justify-center">
                 <button type="submit" className="btn btn-primary">
                   Login
                 </button>

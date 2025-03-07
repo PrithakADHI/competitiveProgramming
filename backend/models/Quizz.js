@@ -25,13 +25,13 @@ const Quizz = sequelize.define("Quizz", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+
+  awardPoints: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  },
 });
-
-// Define Many-to-Many Relationship using a Junction Table
-// const QuizzUsers = sequelize.define("QuizzUsers", {}, { timestamps: false });
-
-// Quizz.belongsToMany(User, { through: QuizzUsers, as: "joinedUsers" });
-// User.belongsToMany(Quizz, { through: QuizzUsers, as: "joinedQuizzes" });
 
 // Define one-to-many relationship with Questions
 Quizz.hasMany(Question, {

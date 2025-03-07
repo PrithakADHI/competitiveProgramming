@@ -8,7 +8,10 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [points, setPoints] = useState(0);
   const navigate = useNavigate();
+
+  const authToken = localStorage.getItem("accessToken");
 
   const login = async (email, password) => {
     try {
@@ -22,6 +25,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("refreshToken", refreshToken);
 
       setUser(user);
+      setPoints(user.points);
       navigate("/");
     } catch (error) {
       console.error("Login Failed: ", error.message);
@@ -100,6 +104,7 @@ export const AuthProvider = ({ children }) => {
           const response = await authAxios.get(`${API_URL}/auth/profile`);
           console.log(response.data.user);
           setUser(response.data.user);
+          setPoints(response.data.user.points);
         }
       } catch (error) {
         console.error("Error fetching user: ", error.response.data);
@@ -112,6 +117,10 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
+  const updatePoints = (newPoints) => {
+    setPoints(newPoints);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -121,6 +130,9 @@ export const AuthProvider = ({ children }) => {
         logout,
         authAxios,
         isAuthenticated,
+        points,
+        updatePoints,
+        authToken,
       }}
     >
       {!loading && children}
