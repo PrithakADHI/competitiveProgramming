@@ -23,7 +23,7 @@ const Card = ({ url, title, desc, done }) => {
               {title}
             </h2>
             <p className="card-subtitle text-sm md:text-base lg:text-lg">
-              {desc.length > 40 ? `${desc.slice(0, 20)}...` : desc}
+              {desc.length > 25 ? `${desc.slice(0, 20)}...` : desc}
             </p>
           </div>
         </div>

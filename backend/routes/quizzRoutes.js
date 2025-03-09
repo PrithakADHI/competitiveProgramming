@@ -3,7 +3,6 @@ import {
   createQuizz,
   readAllQuizzes,
   readQuizz,
-  increaseUserPoints,
   checkUserAnswer,
 } from "../controllers/quizzController.js";
 
@@ -45,7 +44,6 @@ quizzRouter.get(
 //   leaveQuizz
 // );
 
-quizzRouter.post("/increase", authenticateUser, increaseUserPoints);
 quizzRouter.post("/check/:id", authenticateUser, checkUserAnswer);
 
 export default quizzRouter;

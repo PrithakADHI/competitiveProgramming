@@ -8,6 +8,7 @@ import sequelize from "./database.js";
 
 import authRouter from "./routes/authRoutes.js";
 import quizzRouter from "./routes/quizzRoutes.js";
+import adminRouter from "./routes/adminRoutes.js";
 
 import { Server } from "socket.io";
 import http from "http";
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 
 app.use("/auth", authRouter);
 app.use("/api", quizzRouter);
+app.use("/admin", adminRouter);
 
 const server = http.createServer(app);
 

@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [points, setPoints] = useState(0);
+  const [adminError, setAdminError] = useState(null);
   const navigate = useNavigate();
 
   const authToken = localStorage.getItem("accessToken");
@@ -28,6 +29,32 @@ export const AuthProvider = ({ children }) => {
       setPoints(user.points);
       navigate("/");
     } catch (error) {
+      console.error("Login Failed: ", error.message);
+    }
+  };
+
+  const adminLogin = async (email, password) => {
+    try {
+      const response = await axios.post(`${API_URL}/admin/login`, {
+        email,
+        password,
+      });
+
+      if (response.data.success) {
+        const { accessToken, user } = response.data;
+
+        localStorage.setItem("accessToken", accessToken);
+
+        setUser(user);
+        setPoints(user.points);
+        navigate("/admin");
+      } else {
+        return;
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setAdminError(error.response.data.error);
+      }
       console.error("Login Failed: ", error.message);
     }
   };
@@ -130,6 +157,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         authAxios,
         isAuthenticated,
+        adminLogin,
+        adminError,
         points,
         updatePoints,
         authToken,
