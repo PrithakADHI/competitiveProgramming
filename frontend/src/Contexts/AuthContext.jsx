@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [points, setPoints] = useState(0);
-  const [adminError, setAdminError] = useState(null);
+  const [authError, setAuthError] = useState(null);
   const navigate = useNavigate();
 
   const authToken = localStorage.getItem("accessToken");
@@ -29,6 +29,9 @@ export const AuthProvider = ({ children }) => {
       setPoints(user.points);
       navigate("/");
     } catch (error) {
+      if (error.response && error.response.data) {
+        setAuthError(error.response.data.error);
+      }
       console.error("Login Failed: ", error.message);
     }
   };
@@ -53,7 +56,7 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       if (error.response && error.response.data) {
-        setAdminError(error.response.data.error);
+        setAuthError(error.response.data.error);
       }
       console.error("Login Failed: ", error.message);
     }
@@ -67,6 +70,9 @@ export const AuthProvider = ({ children }) => {
       alert("User Successfully Registered.");
       navigate("/login");
     } catch (error) {
+      if (error.response && error.response.data) {
+        setAuthError(error.response.data.error);
+      }
       console.error(
         "Registration Failed: ",
         error.response?.data || error.message
@@ -158,7 +164,7 @@ export const AuthProvider = ({ children }) => {
         authAxios,
         isAuthenticated,
         adminLogin,
-        adminError,
+        authError,
         points,
         updatePoints,
         authToken,

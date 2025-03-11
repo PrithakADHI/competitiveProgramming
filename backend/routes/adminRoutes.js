@@ -13,6 +13,6 @@ adminRouter.post(
   validateRequest,
   loginAdmin
 );
-adminRouter.get("/users", viewAllUsers);
+adminRouter.get("/users", authenticateUser, adminAuth, viewAllUsers);
 
 export default adminRouter;

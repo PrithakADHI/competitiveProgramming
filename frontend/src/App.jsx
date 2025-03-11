@@ -8,6 +8,7 @@ import Login from "./Login/Login";
 import Register from "./Login/Register";
 import AdminLogin from "./Login/AdminLogin";
 import Admin from "./Admin/Admin";
+import User from "./Admin/User";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<AdminLogin />}></Route>
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/users" element={<User />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

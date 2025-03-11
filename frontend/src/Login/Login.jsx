@@ -6,7 +6,7 @@ import Navbar from "../Components/Navbar";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, authError } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,6 +21,11 @@ const Login = () => {
       <div className="grid w-full h-full place-items-center items-center">
         <div className="card w-96 bg-base-100 shadow-xl">
           <div className="card-body">
+            {authError && (
+              <div className="font-bold text-sm text-center mb-6 text-orange-700">
+                <p> {authError} </p>
+              </div>
+            )}
             <h2 className="card-title text-2xl font-bold mb-6">Login</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-control">

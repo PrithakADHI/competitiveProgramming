@@ -86,6 +86,8 @@ export const loginAdmin = async (req, res) => {
   }
 };
 
+// CRUD for Users
+
 export const viewAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -95,6 +97,81 @@ export const viewAllUsers = async (req, res) => {
       data: users,
     });
   } catch (err) {
-    res.status(500).json({ error: "Error: " + err.message });
+    return res.status(500).json({ error: "Error: " + err.message });
+  }
+};
+
+export const viewUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Can't find user." });
+    }
+
+    return res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Error: " + err.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const {
+      username,
+      email,
+      firstName,
+      lastName,
+      profilePicture,
+      points,
+      role,
+    } = req.body;
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found." });
+    }
+
+    await user.update({
+      username,
+      email,
+      firstName,
+      lastName,
+      profilePicture,
+      points,
+      role,
+    });
+    return res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Error: " + error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found." });
+    }
+
+    await user.destroy();
+    return res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully." });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Error: " + error.message });
   }
 };

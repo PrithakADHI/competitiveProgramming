@@ -5,7 +5,7 @@ import { useAuth } from "../Contexts/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { register, authError } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +34,11 @@ const Register = () => {
       <div className="grid w-full h-full place-items-center items-center">
         <div className="card w-96 bg-base-100 shadow-xl">
           <div className="card-body">
+            {authError && (
+              <div className="font-bold text-sm text-center mb-6 text-orange-700">
+                <p> {authError} </p>
+              </div>
+            )}
             <h2 className="card-title text-2xl font-bold mb-6">Register</h2>
             <form onSubmit={handleRegister} encType="multipart/form-data">
               <div className="form-control">

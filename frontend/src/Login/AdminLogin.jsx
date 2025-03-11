@@ -4,7 +4,7 @@ import { useAuth } from "../Contexts/AuthContext";
 import Navbar from "../Components/Navbar";
 
 const AdminLogin = () => {
-  const { adminLogin, adminError } = useAuth();
+  const { adminLogin, authError } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,9 +19,9 @@ const AdminLogin = () => {
       <div className="grid w-full h-full place-items-center items-center">
         <div className="card w-96 bg-base-100 shadow-xl">
           <div className="card-body">
-            {adminError && (
+            {authError && (
               <div className="font-bold text-sm text-center mb-6 text-orange-700">
-                <p> {adminError} </p>
+                <p> {authError} </p>
               </div>
             )}
             <h2 className="card-title text-2xl font-bold mb-6">Admin Login</h2>
